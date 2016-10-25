@@ -1,4 +1,4 @@
-# MySQL DB Extractor
+# MySQL DB Extractor (using php 5.5)
 [![Build Status](https://travis-ci.org/keboola/db-extractor-mysql.svg?branch=master)](https://travis-ci.org/keboola/db-extractor-mysql)
 
 
