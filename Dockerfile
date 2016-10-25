@@ -1,18 +1,30 @@
-FROM quay.io/keboola/docker-base-php56:0.0.2
-MAINTAINER Erik Zigo <erik.zigo@keboola.com>
+FROM ubuntu:14.04
+MAINTAINER Erik Zigo <erik@keboola.com>
 
-# Install required tools
-RUN yum install -y wget
-RUN yum install -y tar
-RUN yum install -y openssl
-RUN yum -y --enablerepo=epel,remi,remi-php56 install php-devel
-RUN yum -y --enablerepo=epel,remi,remi-php56 install php-pear
-RUN yum -y --enablerepo=epel,remi,remi-php56 install php-mysql
+# Install dependencies
+RUN apt-get update && \
+    apt-get install -y \
+      curl \
+      wget \
+      tar \
+      openssl \
+      git \
+      php5 \
+      php5-cli \
+      php5-json \
+      php5-mysqlnd
 
 WORKDIR /home
 
 # Initialize
 COPY . /home/
+RUN echo "memory_limit = -1" >> /etc/php.ini
+RUN echo "date.timezone=UTC" >> /etc/php.ini
+RUN echo "mysql.allow_local_infile = On" >> /etc/php.ini
+
+RUN curl -sS https://getcomposer.org/installer | php && \
+	mv composer.phar /usr/local/bin/composer
+
 RUN composer install --no-interaction
 
 RUN curl --location --silent --show-error --fail \
