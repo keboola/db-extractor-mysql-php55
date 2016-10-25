@@ -11,6 +11,8 @@ class MySQLTest extends AbstractMySQLTest
 {
 	public function setUp()
 	{
+		parent::setUp();
+
 		if (!defined('APP_NAME')) {
 			define('APP_NAME', 'ex-db-mysql');
 		}
